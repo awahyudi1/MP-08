@@ -158,3 +158,6 @@ Example : `npm run seqeulize --workspace=api -- --db:migrate`
 cooba nambahin
 
 cuma ada di 1-3
+
+
+test coba ini adanya di 2-1
