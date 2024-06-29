@@ -153,13 +153,3 @@ Example : `npm run seqeulize --workspace=api -- --db:migrate`
 4. **Nested Folder Structure:**
    - Create a logical and organized folder structure based on the project's architecture.
    - For larger projects, consider organizing files by features/modules (Feature-Based Structure) or layer-based (Layered Structure).
-
-
-cooba nambahin
-
-cuma ada di 1-3
-
-
-test coba ini adanya di 2-1
-
-testing masih di 2-1
