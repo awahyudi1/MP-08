@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-
+import styles from './page.module.css'
 import Hindia from '../../public/assets/Hindia.jpg'
 import KuntoAji from '../../public/assets/Kunto Aji.jpg'
 import SalPriadi from '../../public/assets/Sal Priadi.jpg'
@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <>
       {/* Content 1 */}
-      <div className="overflow-hidden bg-cover bg-center bg-no-repeat bg-[url('../../public/assets/Background.png')]">
+      <div className="overflow-hidden bg-cover bg-center bg-no-repeat bg-[url('../assets/Background.png')]">
 
         <div className="mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:h-screen lg:items-center bg-gray-900/40 2xl:bg-transparent 2xl:from-gray-900/95 
           2xl:to-gray-900/25 ltr:2xl:bg-gradient-to-r rtl:2xl:bg-gradient-to-l">
@@ -36,42 +36,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      {/* Content 2 */}
-      <section className="bg-black">
-        <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-          <div className="max-w-3xl">
-            <h2 className="text-3xl font-serif text-white sm:text-4xl">
-              Come Together ...
-            </h2>
-          </div>
-
-          <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16">
-            <div className="relative h-64 overflow-hidden sm:h-80 lg:h-full">
-              <div className="overflow-hidden bg-cover bg-center bg-no-repeat bg-[url('../../public/assets/Konser.jpg')]">
-                <div className="mt-11 mb-60 text-center">
-                  <a
-                    href="/pages/tickets"
-                    className="inline-block rounded bg-yellow-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-black focus:outline-none focus:ring focus:ring-yellow-400"
-                  >
-                    BUY TICKETS
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div className="lg:py-16">
-              <article className="space-y-6 text-white">
-                <p className="font-serif">
-                  We can't wait to welcome you like-minded people, music lovers, passionate performers, families, artists,
-                  musicians, creators, rebels, and refugees of a changing festival landscape to All Together Now.
-                </p>
-              </article>
-            </div>
-
-          </div>
-        </div>
-      </section>
 
       {/* Content 3 */}
       <section className="bg-white text-black">
@@ -177,6 +141,8 @@ export default function Home() {
                 </div>
               </div>
             </article>
+
+            
           </div>
           <div className="mt-10 mx-auto max-w-lg text-center">
             <p className="font-serif">Plus many more to be announced for across 18 stages</p>
@@ -185,7 +151,7 @@ export default function Home() {
       </section>
 
       {/* Content 4 */}
-      <div className="overflow-hidden py-20 bg-cover bg-center bg-no-repeat bg-[url('../../public/assets/Background2.jpg')]">
+      <div className="overflow-hidden py-20 bg-cover bg-center bg-no-repeat bg-[url('../assets/Background2.jpg')]">
         <div className="mx-auto max-w-lg text-center text-white ">
           <h2 className="text-3xl font-serif sm:text-5xl">Experience...</h2>
 
@@ -229,7 +195,6 @@ export default function Home() {
               </p>
             </a>
 
-            
             <a href="#" className="block">
               <Image
                 alt=""

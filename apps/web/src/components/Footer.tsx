@@ -255,8 +255,6 @@ export const Footer = () => {
             <a className="text-white transition hover:text-gray-700/75" href="#"> Day 2 </a>
           </li>
         </ul>
-
-
       </div>
     </footer>
   </>;
