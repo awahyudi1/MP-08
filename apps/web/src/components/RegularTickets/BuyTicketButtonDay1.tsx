@@ -8,7 +8,7 @@ const BuyTicketButtonDay1 = () => {
         <>
             <button
                 onClick={handleClick}
-                className="mt-8 inline-block w-full bg-white py-4 text-sm font-bold uppercase tracking-widest text-blact"
+                className="rounded mt-8 inline-block w-full bg-white py-4 text-sm font-bold uppercase tracking-widest text-blact"
             >
                 BUY TICKET
             </button>

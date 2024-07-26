@@ -15,7 +15,7 @@ const RegularTicketsDay2 = () => {
                         src={DataTickets[0].path}
                         width={500}
                         height={500}
-                        className="h-full w-full object-cover md:h-full"
+                        className="w-full h-full object-cover"
                     />
 
                     <div className="p-4 text-center sm:p-6 md:col-span-2 lg:p-8">

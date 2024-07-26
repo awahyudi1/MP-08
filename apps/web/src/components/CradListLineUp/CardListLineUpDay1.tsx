@@ -18,11 +18,9 @@ const CardListLineUpDay1 = () => {
                   className="absolute inset-0 h-full w-full object-cover object-top"
                 />
   
-                <div className="relative bg-gradient-to-t from-gray-900/50 to-gray-900/25 pt-32 sm:pt-48 lg:pt-64">
+                <div className="relative bg-gradient-to-t pt-32 sm:pt-48 lg:pt-64">
                   <div className="p-4 sm:p-6">
-                    <a href="#">
-                      <h1 className="mt-0.5 text-3xl font-serif text-white">{data.name}</h1>
-                    </a>
+                      <h1 className="mt-0.5 text-xl font-serif text-white lg:text-3xl">{data.name}</h1>
                   </div>
                 </div>
               </article>

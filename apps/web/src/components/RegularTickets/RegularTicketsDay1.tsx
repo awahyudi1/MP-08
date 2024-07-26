@@ -14,7 +14,7 @@ const RegularTicketsDay1 = () => {
                         src={DataTicket[1].path}
                         width={500}
                         height={500}
-                        className="h-full w-full object-cover md:h-full"
+                        className="w-full object-cover md:h-full"
                     />
                     <div className="p-4 text-center sm:p-6 md:col-span-2 lg:p-8">
                         <p className="text-sm text-white font-semibold uppercase tracking-widest">Run with the pack</p>
