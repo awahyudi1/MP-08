@@ -11,7 +11,8 @@
     "prisma": "npx prisma",
     "db:migrate": "dotenv -e .env.development -- npx prisma migrate dev",
     "db:generate": "dotenv -e .env.development -- npx prisma generate",
-    "db:pull": "dotenv -e .env.development -- npx prisma db pull"
+    "db:pull": "dotenv -e .env.development -- npx prisma db pull",
+    "db:push": "dotenv -e .env.development -- npx prisma db push"
   },
   "author": "",
   "license": "ISC",
@@ -24,6 +25,7 @@
     "dotenv-cli": "^7.4.2",
     "express": "^4.18.2",
     "express-validator": "^7.1.0",
+
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "handlebars": "^4.7.8",

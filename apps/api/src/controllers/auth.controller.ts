@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
-import usersAction from '@/actions/users.action';
-import authAction from '@/actions/auth.action';
+import usersAction from '@/action/user.action';
+import authAction from '@/action/auth.action';
 import { User } from '@/types/express';
+import bcrypt from 'bcrypt';
+import { Jwt } from 'jsonwebtoken';
 
 export class AuthController {
   public testFindUser = async (
@@ -28,9 +30,11 @@ export class AuthController {
     req: Request,
     res: Response,
     next: NextFunction,
-  ) => {
+  ): Promise<void> => {
     try {
       const { username, email, password, referrerCode, roleId } = req.body;
+
+      const hashedPassword = await bcrypt.hash(password, 10);
 
       const result = await authAction.createUser(
         username,
@@ -54,7 +58,7 @@ export class AuthController {
     req: Request,
     res: Response,
     next: NextFunction,
-  ) => {
+  ): Promise<void> => {
     try {
       const { email, password } = req.body;
 
@@ -74,7 +78,7 @@ export class AuthController {
     req: Request,
     res: Response,
     next: NextFunction,
-  ) => {
+  ): Promise<void> => {
     try {
       const { email } = req.user as User;
 
@@ -93,7 +97,7 @@ export class AuthController {
     req: Request,
     res: Response,
     next: NextFunction,
-  ) => {
+  ): Promise<void> => {
     const { email } = req.user as User;
     try {
       await authAction.verifyEmail(email);

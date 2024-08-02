@@ -49,7 +49,7 @@ class AuthAction {
 
       // transaction function to ensure atomicity: check referrer code, record user, and record point if referrer code is valid, logging in, then return { accessToken, refreshToken }
       const result = await prisma.$transaction(async (tx) => {
-        await tx.user.create({
+        const user = await tx.user.create({
           data: {
             username,
             email,
@@ -92,6 +92,13 @@ class AuthAction {
           });
         }
 
+        // await this.sendVerifyEmail(email);
+
+        return user;
+      });
+
+      const login = this.login(email, password);
+      return login;
         await this.sendVerifyEmail(email);
 
         const login = this.login(email, password);

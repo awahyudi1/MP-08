@@ -11,11 +11,27 @@ export class UsersController {
     try {
       const { id } = req.user as User;
 
-      const user = await usersAction.findSelfById(id);
+      const data = await usersAction.findSelfById(id);
 
       res.status(200).json({
-        message: 'Get user profile success',
-        data: user,
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  public getUserByEmailController = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const { email } = req.params;
+
+      const data = await usersAction.findUserByEmailOrUsername(email);
+
+      res.status(200).json({
+        data,
       });
     } catch (error) {
       next(error);
