@@ -56,7 +56,7 @@ class AuthAction {
             password: hashedPassword,
             referralCode,
             referrerId,
-            roleId,
+            roleId: 1,
             profile: {
               create: {},
             },

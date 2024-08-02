@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 // model event {
@@ -52,7 +53,7 @@ datasource db {
 // }
 
 model user {
- id               Int       @id @default(autoincrement())
+  id               Int       @id @default(autoincrement())
   email            String    @unique
   username         String    @unique
   password         String
@@ -70,18 +71,17 @@ model user {
   resetTokenExpiry DateTime?
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @default(now()) @updatedAt
+
+  @@index([referrerId], name: "referrerId")
+  @@index([roleId], name: "roleId")
 }
-
-
-// enum user_role {
-//   CUSTOMER
-//   PROMOTER
-// }
 
 model Role {
   id   Int    @id @default(autoincrement())
   name String
   user user[]
+
+  
 }
 
 model Profile {
@@ -96,6 +96,8 @@ model Profile {
   customer   user      @relation(fields: [customerId], references: [id])
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @default(now()) @updatedAt
+
+  
 }
 
 enum Gender {
@@ -114,6 +116,8 @@ model Point {
   pointsOwner     user     @relation(fields: [pointsOwnerId], references: [id])
   createdAt       DateTime @default(now())
   updatedAt       DateTime @default(now()) @updatedAt
+
+  @@index([pointsOwnerId], name: "pointsOwnerId")
 }
 
 model Event {
@@ -130,6 +134,8 @@ model Event {
   promotion      Int?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+
+  @@index([organizerId], name: "organizerId")
 }
 
 model Review {
@@ -139,6 +145,8 @@ model Review {
   rating     Int
   reviewText String
   createdAt  DateTime @default(now())
+
+  
 }
 
 model Ticket {
@@ -149,7 +157,8 @@ model Ticket {
   price         Int
   status        Int
   createdAt     DateTime @default(now())
-}
+
+  }
 
 model Transaction {
   id            Int      @id @default(autoincrement())
@@ -159,6 +168,8 @@ model Transaction {
   promotionsId  Int
   paymentStatus String
   createdAt     DateTime @default(now())
+
+  
 }
 
 model Promotion {
@@ -170,6 +181,9 @@ model Promotion {
   validFrom      DateTime
   validTo        DateTime
   createdAt      DateTime @default(now())
+
+  @@index([eventId], name: "eventId")
+  @@index([code], name: "code")
 }
 
 enum ticketType {
@@ -190,4 +204,6 @@ model Discount {
   discountExpiry DateTime
   customerId     Int      @unique
   customer       user     @relation(fields: [customerId], references: [id])
+
+  @@index([customerId], name: "customerId")
 }
