@@ -4,6 +4,7 @@ import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 // import { login } from '@/_middlewares/auth.middleware';
 import { useAppDispatch } from '@/lib/hooks';
+import { LoginAction } from './login.action';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -12,37 +13,52 @@ const Login = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setError('');
+
+  //   try {
+  //     // // const res = await login({
+  //     //   email,
+  //     //   password,
+  //     // })(dispatch);
+  //     // const { token } = response.data;
+  //     // Store token in local storage
+  //     // localStorage.setItem('token', response.data.token);
+  //     // Redirect to dashboard or home page after successful login
+  //     // if (res) router.push('/dashboard');
+  //     // if (res) {
+  //     //   localStorage.setItem('token', res);
+  //     //   router.push('/');
+  //     // }
+  //   } catch (err: any) {
+  //     let message = '';
+  //     if (err instanceof AxiosError) {
+  //       message = err.response?.data;
+  //     } else {
+  //       message = err.message;
+  //     }
+
+  //     console.error(message);
+  //     setError(err.message);
+  //   }
+  // };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
     try {
-      // // const res = await login({
-      //   email,
-      //   password,
-      // })(dispatch);
-      // const { token } = response.data;
-      // Store token in local storage
-      // localStorage.setItem('token', response.data.token);
-      // Redirect to dashboard or home page after successful login
-      // if (res) router.push('/dashboard');
-      // if (res) {
-      //   localStorage.setItem('token', res);
-      //   router.push('/');
-      // }
-    } catch (err: any) {
-      let message = '';
-      if (err instanceof AxiosError) {
-        message = err.response?.data;
-      } else {
-        message = err.message;
-      }
+      const response = LoginAction(email, password);
 
-      console.error(message);
-      setError(err.message);
+      await response;
+    } catch (error) {
+      return error;
+    } finally {
+      router.push('/');
+      router.refresh();
     }
   };
-
   return (
     <div className="mx-auto my-10 2xl:my-52 max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-lg text-center">

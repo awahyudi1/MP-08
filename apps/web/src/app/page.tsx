@@ -8,8 +8,11 @@ import Picnic from '@/assets/Picnic.jpg';
 import Konser from '@/assets/Konser.jpg';
 import ReviewUser from '@/components/ReviewUser/ReviewUser';
 import CardListLineUpHome from '@/components/CradListLineUp/CardListLineUpHome';
+import { auth } from '@/auth';
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
+
   return (
     <>
       {/* Content 1 */}

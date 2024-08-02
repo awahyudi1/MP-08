@@ -16,6 +16,7 @@ class UserAction {
           id: true,
           username: true,
           email: true,
+          password: true,
         },
 
         where: {
@@ -26,13 +27,13 @@ class UserAction {
         },
       });
 
-      return user
-        ? {
-            id: user.id,
-            email: email ? user.email : undefined,
-            username: username ? user.username : undefined,
-          }
-        : null;
+      return user;
+      // ? {
+      //     id: user.id,
+      //     email: email ? user.email : undefined,
+      //     username: username ? user.username : undefined,
+      //   }
+      // : null;
     } catch (error) {
       throw error;
     }

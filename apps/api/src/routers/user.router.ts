@@ -27,6 +27,7 @@ export class UsersRouter {
       this.usersController.profileController,
     );
 
+    this.router.get('/:email', this.usersController.getUserByEmailController);
     // for updating user profile, passing { id } from jwt and data in body then return user data
     this.router.patch(
       '/update-profile',

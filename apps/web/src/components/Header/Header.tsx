@@ -164,26 +164,30 @@
 //   );
 // };
 
-'use client';
+// 'use client';
 
-import React, { useEffect, useState } from 'react';
+// import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 // import { logout } from '@/_middlewares/auth.middleware';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/lib/hooks';
+import { auth, signOut } from '@/auth';
 
-export const Header = () => {
-  const [isClick, setisClick] = useState(false);
-  const [isLogin, setisLogin] = useState(false);
+export const Header = async () => {
+  // const [isClick, setisClick] = useState(false);
+  // const [isLogin, setisLogin] = useState(false);
+  const session = await auth();
 
-  const toggleNavbar = (): void => {
-    setisClick(!isClick);
-  };
+  console.log(session);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    setisLogin(!!token);
-  }, []);
+  // const toggleNavbar = (): void => {
+  //   setisClick(!isClick);
+  // };
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   setisLogin(!!token);
+  // }, []);
   // Check if the user is logged in and update the isLogin state
   // const checkLoginStatus = async () => {
   //   // Replace this with your actual logic to check if the user is logged in
@@ -208,7 +212,7 @@ export const Header = () => {
   //   const token = localStorage.getItem('token');
   //   setisLogin(!!token);
   // }, [isLogin]);
-  const router = useRouter();
+  // const router = useRouter();
   // const dispatch = useAppDispatch();
 
   return (
@@ -249,7 +253,7 @@ export const Header = () => {
 
           {/* LogIn / LogOut */}
           <div>
-            {!isLogin ? (
+            {!session ? (
               <Link
                 href="/signin"
                 className="bg-yellow-600 rounded p-2 text-sm md:text-md"
@@ -257,12 +261,26 @@ export const Header = () => {
                 Sign In
               </Link>
             ) : (
-              <button
-                type="button"
-                className="bg-red-600 rounded p-2 text-sm md:text-md"
+              <form
+                action={async () => {
+                  'use server';
+                  await signOut();
+                }}
               >
-                Log Out
-              </button>
+                <h1>
+                  welcome,{' '}
+                  {
+                    // @ts-ignore
+                    session.user?.data.username
+                  }
+                </h1>
+                <button
+                  type="submit"
+                  className="bg-red-600 rounded p-2 text-sm md:text-md"
+                >
+                  Log Out
+                </button>
+              </form>
             )}
           </div>
 
@@ -271,76 +289,71 @@ export const Header = () => {
             <button
               className="inline-flex items-center justify-center p-2 rounded-md text-white
               hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-              onClick={toggleNavbar}
             >
-              {isClick ? (
-                <svg
-                  className="h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  className="h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 6h16M4 12h16m-7 6h7"
-                  />
-                </svg>
-              )}
+              <svg
+                className="h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+
+              <svg
+                className="h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 6h16M4 12h16m-7 6h7"
+                />
+              </svg>
             </button>
           </div>
         </div>
 
-        {isClick && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              <Link
-                href="/"
-                className="mx-2 block text-center hover:text-gray-300"
-              >
-                Home
-              </Link>
+        <div className="md:hidden">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <Link
+              href="/"
+              className="mx-2 block text-center hover:text-gray-300"
+            >
+              Home
+            </Link>
 
-              <Link
-                href="/pages/tickets"
-                className="mx-2 block text-center hover:text-gray-300"
-              >
-                Tickets
-              </Link>
+            <Link
+              href="/pages/tickets"
+              className="mx-2 block text-center hover:text-gray-300"
+            >
+              Tickets
+            </Link>
 
-              <Link
-                href="/pages/day1"
-                className="mx-2 block text-center hover:text-gray-300"
-              >
-                Day 1
-              </Link>
+            <Link
+              href="/pages/day1"
+              className="mx-2 block text-center hover:text-gray-300"
+            >
+              Day 1
+            </Link>
 
-              <Link
-                href="/pages/day2"
-                className="mx-2 block text-center hover:text-gray-300"
-              >
-                Day 2
-              </Link>
-            </div>
+            <Link
+              href="/pages/day2"
+              className="mx-2 block text-center hover:text-gray-300"
+            >
+              Day 2
+            </Link>
           </div>
-        )}
+        </div>
       </nav>
     </>
   );
