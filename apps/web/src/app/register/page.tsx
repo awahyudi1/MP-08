@@ -1,5 +1,7 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import router, { Router } from 'next/router';
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { json } from 'stream/consumers';
 
@@ -11,29 +13,41 @@ const Register = () => {
     username: '',
   });
 
+  const router = useRouter();
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const name = event.target.name;
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
   };
+
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    // 'use server';
     try {
-      const rest = await fetch('http://localhost:8000/api/samples/', {
+      const response = await fetch('http://localhost:8000/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(inputs),
       });
-      return await rest.json();
-    } catch (error) {}
-    console.log(inputs);
+
+      if (response.status >= 200 && response.status < 300) {
+        router.push('/thank-you');
+      } else {
+        // Handle registration error
+        console.error('Registration failed');
+      }
+    } catch (error) {
+      console.error('An error occurred during registration', error);
+    }
+    //   return await rest.json();
+    // } catch (error) {}
+    // console.log(inputs);
   }
   return (
     <>
       <div className="mx-auto my-10 2xl:my-52 max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-lg text-center">
-          <h1 className="text-2xl font-bold sm:text-3xl">Sign In</h1>
+          <h1 className="text-2xl font-bold sm:text-3xl">Sign Up</h1>
         </div>
 
         <form

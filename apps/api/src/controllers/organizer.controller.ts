@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import usersAction from '@/actions/users.action';
+import usersAction from '@/actions/user.action';
 import { User } from '@/types/express';
 import organizersAction from '@/actions/organizers.action';
 
