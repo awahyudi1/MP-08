@@ -217,34 +217,3 @@ model Discount {
   @@index([customerId], name: "customerId")
 }
 
-model Profile {
-  id         Int       @id @default(autoincrement())
-  firstname  String?
-  lastname   String?
-  birthDate  DateTime?
-  phone      String?
-  gender     Gender?
-  avatar     String?
-  customerId Int       @unique
-  customer   user      @relation(fields: [customerId], references: [id])
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @default(now()) @updatedAt
-}
-
-enum Gender {
-  FEMALE
-  MALE
-  NON_BINARY
-  PREFER_NOT_TO_SAY
-}
-
-model Point {
-  id              Int      @id @default(autoincrement())
-  pointsEarned    Int
-  pointsRemaining Int
-  pointsExpiry    DateTime
-  pointsOwnerId   Int
-  pointsOwner     user     @relation(fields: [pointsOwnerId], references: [id])
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @default(now()) @updatedAt
-}
