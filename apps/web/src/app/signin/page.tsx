@@ -1,97 +1,260 @@
-import React from 'react';
+'use client';
+import { useState } from 'react';
+import axios, { AxiosError } from 'axios';
+import { useRouter } from 'next/navigation';
+// import { login } from '@/_middlewares/auth.middleware';
+import { useAppDispatch } from '@/lib/hooks';
+import { LoginAction } from './login.action';
 
-const SignIn = () => {
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setError('');
+
+  //   try {
+  //     // // const res = await login({
+  //     //   email,
+  //     //   password,
+  //     // })(dispatch);
+  //     // const { token } = response.data;
+  //     // Store token in local storage
+  //     // localStorage.setItem('token', response.data.token);
+  //     // Redirect to dashboard or home page after successful login
+  //     // if (res) router.push('/dashboard');
+  //     // if (res) {
+  //     //   localStorage.setItem('token', res);
+  //     //   router.push('/');
+  //     // }
+  //   } catch (err: any) {
+  //     let message = '';
+  //     if (err instanceof AxiosError) {
+  //       message = err.response?.data;
+  //     } else {
+  //       message = err.message;
+  //     }
+
+  //     console.error(message);
+  //     setError(err.message);
+  //   }
+  // };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    try {
+      const response = LoginAction(email, password);
+
+      await response;
+    } catch (error) {
+      return error;
+    } finally {
+      router.push('/');
+      router.refresh();
+    }
+  };
   return (
-    <>
-      <div className="mx-auto my-10 2xl:my-52 max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-lg text-center">
-          <h1 className="text-2xl font-bold sm:text-3xl">Sign In</h1>
-        </div>
-
-        <form action="#" className="mx-auto mb-0 mt-8 max-w-md space-y-4">
-          <div>
-            <label className="sr-only">Email</label>
-
-            <div className="relative">
-              <input
-                type="email"
-                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                placeholder="Enter your email or phone number"
-              />
-
-              <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="size-4 text-gray-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                  />
-                </svg>
-              </span>
-            </div>
+    <div className="mx-auto my-10 2xl:my-52 max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-lg text-center">
+        <form
+          onSubmit={handleSubmit}
+          className="w-96 p-6 bg-white rounded shadow-md"
+        >
+          <h1 className="text-2xl font-bold sm:text-3xl">Login</h1>
+          {error && <p className="text-red-500">{error}</p>}
+          <div className="mb-4">
+            <label className="block mb-1" htmlFor="email">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded"
+              required
+            />
           </div>
-
-          <div>
-            <label className="sr-only">Password</label>
-
-            <div className="relative">
-              <input
-                type="password"
-                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                placeholder="Enter your password"
-              />
-
-              <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="size-4 text-gray-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                  />
-                </svg>
-              </span>
-            </div>
+          <div className="mb-4">
+            <label className="block mb-1" htmlFor="password">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded"
+              required
+            />
           </div>
-
+          <button
+            type="submit"
+            className="w-full p-2 bg-blue-500 text-white rounded"
+          >
+            Login
+          </button>
           <div className="flex items-center justify-between">
             <p className="text-sm text-gray-500">
               Dont have an account?
-              <a className="underline text-yellow-600" href="#">
+              <a className="underline text-yellow-600" href="/register">
                 Sign up
               </a>
             </p>
-
-            <button
-              type="submit"
-              className="inline-block rounded-lg bg-yellow-600 px-5 py-3 text-sm font-medium text-white"
-            >
-              Sign in
-            </button>
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 };
 
-export default SignIn;
+export default Login;
+
+// 'use client';
+
+// import React, { useState } from 'react';
+// import { useRouter } from 'next/navigation';
+// import { login } from '@/services/authservice';
+
+// const SignIn = () => {
+//   const [email, setEmail] = useState('');
+//   const [password, setPassword] = useState('');
+//   const router = useRouter();
+
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     // Assume we have a login function that sets the token in local storage
+//     const token = await login({ email, password });
+//     if (token) {
+//       localStorage.setItem('token', token);
+//       router.push('/');
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <form onSubmit={handleSubmit}>
+//         <input
+//           type="email"
+//           value={email}
+//           onChange={(e) => setEmail(e.target.value)}
+//           placeholder="Email"
+//         />
+//         <input
+//           type="password"
+//           value={password}
+//           onChange={(e) => setPassword(e.target.value)}
+//           placeholder="Password"
+//         />
+//         <button type="submit">Sign In</button>
+//       </form>
+//     </div>
+//   );
+// };
+
+// export default SignIn;
+
+// src/app/auth/signin/page.tsx
+// 'use client';
+
+// import { useState } from 'react';
+// import axios, { AxiosError } from 'axios';
+// import { useRouter } from 'next/navigation';
+// import { login } from '@/_middlewares/auth.middleware';
+// import { useAppDispatch } from '@/lib/hooks';
+
+// const Login = () => {
+//   const [email, setEmail] = useState('');
+//   const [password, setPassword] = useState('');
+//   const [error, setError] = useState('');
+//   const router = useRouter();
+//   const dispatch = useAppDispatch();
+
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     setError('');
+
+//     try {
+//       const token = await login({
+//         email,
+//         password,
+//       })(dispatch);
+
+//       // Store token in local storage
+//       localStorage.setItem('token', token);
+//       router.push('/');
+//     } catch (err: any) {
+//       let message = '';
+//       if (err instanceof AxiosError) {
+//         message = err.response?.data;
+//       } else {
+//         message = err.message;
+//       }
+
+//       console.error(message);
+//       setError(message);
+//     }
+//   };
+
+//   return (
+//     <div className="mx-auto my-10 2xl:my-52 max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+//       <div className="mx-auto max-w-lg text-center">
+//         <form
+//           onSubmit={handleSubmit}
+//           className="w-96 p-6 bg-white rounded shadow-md"
+//         >
+//           <h1 className="text-2xl font-bold sm:text-3xl">Login</h1>
+//           {error && <p className="text-red-500">{error}</p>}
+//           <div className="mb-4">
+//             <label className="block mb-1" htmlFor="email">
+//               Email
+//             </label>
+//             <input
+//               type="email"
+//               id="email"
+//               value={email}
+//               onChange={(e) => setEmail(e.target.value)}
+//               className="w-full p-2 border border-gray-300 rounded"
+//               required
+//             />
+//           </div>
+//           <div className="mb-4">
+//             <label className="block mb-1" htmlFor="password">
+//               Password
+//             </label>
+//             <input
+//               type="password"
+//               id="password"
+//               value={password}
+//               onChange={(e) => setPassword(e.target.value)}
+//               className="w-full p-2 border border-gray-300 rounded"
+//               required
+//             />
+//           </div>
+//           <button
+//             type="submit"
+//             className="w-full p-2 bg-blue-500 text-white rounded"
+//           >
+//             Login
+//           </button>
+//           <div className="flex items-center justify-between">
+//             <p className="text-sm text-gray-500">
+//               Dont have an account?
+//               <a className="underline text-yellow-600" href="/register">
+//                 Sign up
+//               </a>
+//             </p>
+//           </div>
+//         </form>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Login;
