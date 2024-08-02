@@ -53,7 +53,8 @@ datasource db {
 // }
 
 model user {
-  id               Int       @id @default(autoincrement())
+
+ id               Int       @id @default(autoincrement())
   email            String    @unique
   username         String    @unique
   password         String
@@ -65,23 +66,31 @@ model user {
   referrer         user?     @relation(name: "referred_by", fields: [referrerId], references: [id])
   referee          user[]    @relation(name: "referred_by")
   points           Point[]
+
   discount         Discount?
   isVerified       Boolean   @default(false)
   resetToken       String?
   resetTokenExpiry DateTime?
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @default(now()) @updatedAt
-
+  
   @@index([referrerId], name: "referrerId")
   @@index([roleId], name: "roleId")
 }
+
+
+
+
+// enum user_role {
+//   CUSTOMER
+//   PROMOTER
+// }
 
 model Role {
   id   Int    @id @default(autoincrement())
   name String
   user user[]
-
-  
+ 
 }
 
 model Profile {
@@ -206,4 +215,36 @@ model Discount {
   customer       user     @relation(fields: [customerId], references: [id])
 
   @@index([customerId], name: "customerId")
+}
+
+model Profile {
+  id         Int       @id @default(autoincrement())
+  firstname  String?
+  lastname   String?
+  birthDate  DateTime?
+  phone      String?
+  gender     Gender?
+  avatar     String?
+  customerId Int       @unique
+  customer   user      @relation(fields: [customerId], references: [id])
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now()) @updatedAt
+}
+
+enum Gender {
+  FEMALE
+  MALE
+  NON_BINARY
+  PREFER_NOT_TO_SAY
+}
+
+model Point {
+  id              Int      @id @default(autoincrement())
+  pointsEarned    Int
+  pointsRemaining Int
+  pointsExpiry    DateTime
+  pointsOwnerId   Int
+  pointsOwner     user     @relation(fields: [pointsOwnerId], references: [id])
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @default(now()) @updatedAt
 }

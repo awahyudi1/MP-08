@@ -1,7 +1,9 @@
 import { genSalt, hash } from 'bcrypt';
 import prisma from '../prisma';
 import { FRONTEND_URL } from '../config';
+
 import usersAction from './user.action';
+
 
 export class OrganizersAction {
   // IMPORTANT: for public use, do not return sensitive data

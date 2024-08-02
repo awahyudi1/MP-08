@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import usersAction from '@/actions/user.action';
+import usersAction from '@/action/user.action';
 import { User } from '@/types/express';
-import organizersAction from '@/actions/organizers.action';
+import organizersAction from '@/action/organizers.action';
 
 export class OrganizersController {
   // for public use, consume username from params then return organizer profile

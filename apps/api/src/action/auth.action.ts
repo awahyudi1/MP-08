@@ -56,7 +56,7 @@ class AuthAction {
             password: hashedPassword,
             referralCode,
             referrerId,
-            roleId: 1,
+            roleId,
             profile: {
               create: {},
             },
@@ -99,6 +99,14 @@ class AuthAction {
 
       const login = this.login(email, password);
       return login;
+        await this.sendVerifyEmail(email);
+
+        const login = this.login(email, password);
+
+        return login;
+      });
+
+      return result;
     } catch (error) {
       throw error;
     }
